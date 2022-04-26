@@ -16,24 +16,11 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
 
     const db = client.db(databaseName)
 
-    db.collection('tasks').findOne({ _id: new ObjectID('62659873ce08492491ae33a0') }, (error, task) => {
-        if (error) {
-            return console.log('Unable to find task.')
-        }
-        console.log(task)
+    db.collection('users').deleteMany({
+        age: 67
+    }).then((result) => {
+        console.log(result)
+    }).catch((error) => {
+        console.log(error)
     })
-
-    db.collection('tasks').find({ completed: false }).toArray((error, tasks) => {
-        if (error) {
-            return console.log('Unable to find tasks.')
-        }
-        console.log(tasks)
-    })
-
-    // db.collection('users').findOne({ _id: new ObjectID('62659525b423314f39db124b') }, (error, user) => {
-    //     if (error) {
-    //         return console.log('Unable to find user.')
-    //     }
-    //     console.log(user)
-    // })
 })
