@@ -15,7 +15,7 @@ const User = mongoose.model('User', {
         required: true,
         trim: true,
         lowercase: true,
-        set: value => value.replace(/\s+/g, ' '),
+        set: value => value.replace(/\s+/g, ''),
         validate(value) {
             if (!validator.isEmail(value)) {
                 throw new Error('Email is invalid.')
@@ -52,20 +52,21 @@ const Task = mongoose.model('Task', {
         set: value => value.replace(/\s+/g, ' ')
     },
     completed: {
-        type: Boolean
+        type: Boolean,
+        default: false
     }
 })
 
-const learnMongo = new Task({
-    description: ' Take  pills ',
-    completed: false
-})
+// const learnMongo = new Task({
+//     description: ' Take  pills ',
+//     completed: false
+// })
 
-learnMongo.save().then(() => {
-    console.log(learnMongo)
-}).catch((error) => {
-    console.log('Error!', error)
-})
+// learnMongo.save().then(() => {
+//     console.log(learnMongo)
+// }).catch((error) => {
+//     console.log('Error!', error)
+// })
 
 // const me = new User({
 //     name: 'Satan',
