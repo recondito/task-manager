@@ -8,6 +8,7 @@ const port = process.env.PORT || 3000
 
 app.use(express.json())
 
+// POST User.
 app.post('/users', (req, res) => {
     const user = new User(req.body)
     user.save().then(() => {
@@ -17,6 +18,7 @@ app.post('/users', (req, res) => {
     })
 })
 
+// GET All Users.
 app.get('/users', (req, res) => {
     User.find({}).then((users) => {
         res.send(users)
@@ -25,6 +27,7 @@ app.get('/users', (req, res) => {
     })
 })
 
+// GET User by ID.
 app.get('/users/:id', (req, res) => {
     const _id = req.params.id
 
@@ -38,12 +41,36 @@ app.get('/users/:id', (req, res) => {
     })
 })
 
+// POST Task.
 app.post('/tasks', (req, res) => {
     const task = new Task(req.body)
     task.save().then(() => {
         res.status(201).send(task)
     }).catch((e) => {
         res.status(400).send(e)
+    })
+})
+
+// GET All Tasks.
+app.get('/tasks', (req, res) => {
+    Task.find({}).then((tasks) => {
+        res.send(tasks)
+    }).catch((e) => {
+        res.status(500).send()
+    })
+})
+
+// GET Task by ID.
+app.get('/tasks/:id', (req, res) => {
+    const _id = req.params.id
+
+    Task.findById(_id).then((tasks) => {
+        if (!tasks) {
+            return res.status(404).send()
+        }
+        res.send(tasks)
+    }).catch((e) => {
+        res.status(500).send()
     })
 })
 
