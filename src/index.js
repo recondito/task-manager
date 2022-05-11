@@ -63,7 +63,7 @@ app.patch('/users/:id', async (req, res) => {
         }
         res.send()
     } catch (e) {
-        res.status(400).send()
+        res.status(400).send(e)
     }
 })
 
@@ -119,7 +119,7 @@ app.patch('/tasks/:id', async (req, res) => {
         }
         res.send()
     } catch (e) {
-        res.status(400).send()
+        res.status(400).send(e)
     }
 })
 
