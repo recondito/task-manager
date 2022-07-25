@@ -99,7 +99,12 @@ router.patch('/users/me', auth, async (req, res) => {
     }
 })
 
-
+// DELETE Profile Picture.
+router.delete('/users/me/avatar', auth, async (req, res) => {
+        req.user.avatar = undefined
+        await req.user.save()
+        res.send()
+})
 
 // DELETE User by ID.
 router.delete('/users/me', auth, async (req, res) => {
