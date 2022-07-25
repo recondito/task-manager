@@ -54,11 +54,24 @@ router.post('/users/logoutAll', auth, async (req, res) => {
 
 // POST Upload Profile Picture.
 const upload = multer({
-    dest: 'avatars'
+    limits: {
+        fileSize: 2097152, //2MB
+    },
+    fileFilter (req, file, cb) {
+        if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+            return cb(new Error('Please upload an image file (.png, .jpg, .jpeg)'))
+        }
+        
+        cb(undefined, true)
+    }
 })
 
-router.post('/users/me/avatar', upload.single('avatar'), (req,res) => {
+router.post('/users/me/avatar', auth, upload.single('avatar'), async (req,res) => {
+    req.user.avatar = req.file.buffer
+    await req.user.save()
     res.send()
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message })
 })
 
 // GET User Profile.
@@ -85,6 +98,8 @@ router.patch('/users/me', auth, async (req, res) => {
         res.status(400).send(e)
     }
 })
+
+
 
 // DELETE User by ID.
 router.delete('/users/me', auth, async (req, res) => {
