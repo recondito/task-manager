@@ -2,3 +2,4 @@ node_modules/
 mongodb.js
 playground/
 commands.txt
+config/
